@@ -14,19 +14,14 @@ public class Coffee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer roasterId;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "roasterId", referencedColumnName = "roasterId", insertable = false, updatable = false)
+//    private Roaster roaster;
     private String name;
     private int count;
     private double unitPrice;
     private String description;
     private String type;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getRoasterId() {
         return roasterId;
@@ -34,6 +29,22 @@ public class Coffee {
 
     public void setRoasterId(Integer roasterId) {
         this.roasterId = roasterId;
+    }
+
+//    public Roaster getRoaster() {
+//        return roaster;
+//    }
+//
+//    public void setRoaster(Roaster roaster) {
+//        this.roaster = roaster;
+//    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

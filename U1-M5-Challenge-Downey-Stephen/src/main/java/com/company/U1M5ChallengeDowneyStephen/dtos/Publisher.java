@@ -1,20 +1,9 @@
-package com.company.SteveDowneyCoffeeInventoryJpaRepository.models;
+package com.company.U1M5ChallengeDowneyStephen.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "roaster")
-public class Roaster {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer roasterId;
-    @OneToMany(mappedBy = "roasterId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Coffee> coffeeSet;
+public class Publisher {
+    private int publisherId;
     private String name;
     private String street;
     private String city;
@@ -22,14 +11,13 @@ public class Roaster {
     private String postalCode;
     private String phone;
     private String email;
-    private String note;
 
-    public Integer getRoasterId() {
-        return roasterId;
+    public int getPublisherId() {
+        return publisherId;
     }
 
-    public void setRoasterId(Integer roasterId) {
-        this.roasterId = roasterId;
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
     }
 
     public String getName() {
@@ -88,31 +76,23 @@ public class Roaster {
         this.email = email;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Roaster roaster = (Roaster) o;
-        return Objects.equals(roasterId, roaster.roasterId) && Objects.equals(name, roaster.name) && Objects.equals(street, roaster.street) && Objects.equals(city, roaster.city) && Objects.equals(state, roaster.state) && Objects.equals(postalCode, roaster.postalCode) && Objects.equals(phone, roaster.phone) && Objects.equals(email, roaster.email) && Objects.equals(note, roaster.note);
+        Publisher publisher = (Publisher) o;
+        return publisherId == publisher.publisherId && Objects.equals(name, publisher.name) && Objects.equals(street, publisher.street) && Objects.equals(city, publisher.city) && Objects.equals(state, publisher.state) && Objects.equals(postalCode, publisher.postalCode) && Objects.equals(phone, publisher.phone) && Objects.equals(email, publisher.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roasterId, name, street, city, state, postalCode, phone, email, note);
+        return Objects.hash(publisherId, name, street, city, state, postalCode, phone, email);
     }
 
     @Override
     public String toString() {
-        return "Roaster{" +
-                "roasterId=" + roasterId +
+        return "Publisher{" +
+                "id=" + publisherId +
                 ", name='" + name + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
@@ -120,7 +100,6 @@ public class Roaster {
                 ", postalCode='" + postalCode + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", note='" + note + '\'' +
                 '}';
     }
 }
