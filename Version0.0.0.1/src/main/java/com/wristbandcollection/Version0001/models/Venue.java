@@ -1,17 +1,34 @@
 package com.wristbandcollection.Version0001.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "venue")
 public class Venue {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer venueId;
     private String name;
-    private Address address;
-    private List<ContactCard> contactCards;
-    private List<Show> shows;
     private LocalDate dateOpened;
     private LocalDate dateClosed;
+    @OneToOne
+    @JoinColumn(name = "ownerId", referencedColumnName = "venueId", nullable = false, insertable = false)
+    private Address address;
+    @OneToMany
+    @JoinColumn(name = "contactId", referencedColumnName = "venueId", nullable = false, insertable = false)
+    private List<ContactCard> contactCards;
+    @OneToMany
+    @JoinColumn(name = "venueId", referencedColumnName = "venueId", nullable = false, insertable = false)
+    private List<Show> shows;
+    @OneToOne
+    @JoinColumn(name = "ownerId", referencedColumnName = "venueId", nullable = false, insertable = false)
+    private WebListing webListing;
 
     public Venue(){}
 
@@ -34,6 +51,22 @@ public class Venue {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public LocalDate getDateOpened() {
+        return dateOpened;
+    }
+
+    public void setDateOpened(LocalDate dateOpened) {
+        this.dateOpened = dateOpened;
+    }
+
+    public LocalDate getDateClosed() {
+        return dateClosed;
+    }
+
+    public void setDateClosed(LocalDate dateClosed) {
+        this.dateClosed = dateClosed;
     }
 
     public Address getAddress() {
@@ -60,20 +93,12 @@ public class Venue {
         this.shows = shows;
     }
 
-    public LocalDate getDateOpened() {
-        return dateOpened;
+    public WebListing getWebListing() {
+        return webListing;
     }
 
-    public void setDateOpened(LocalDate dateOpened) {
-        this.dateOpened = dateOpened;
-    }
-
-    public LocalDate getDateClosed() {
-        return dateClosed;
-    }
-
-    public void setDateClosed(LocalDate dateClosed) {
-        this.dateClosed = dateClosed;
+    public void setWebListing(WebListing webListing) {
+        this.webListing = webListing;
     }
 
     @Override
@@ -81,12 +106,12 @@ public class Venue {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Venue venue = (Venue) o;
-        return Objects.equals(venueId, venue.venueId) && Objects.equals(name, venue.name) && Objects.equals(address, venue.address) && Objects.equals(contactCards, venue.contactCards) && Objects.equals(shows, venue.shows) && Objects.equals(dateOpened, venue.dateOpened) && Objects.equals(dateClosed, venue.dateClosed);
+        return Objects.equals(venueId, venue.venueId) && Objects.equals(name, venue.name) && Objects.equals(dateOpened, venue.dateOpened) && Objects.equals(dateClosed, venue.dateClosed) && Objects.equals(address, venue.address) && Objects.equals(contactCards, venue.contactCards) && Objects.equals(shows, venue.shows) && Objects.equals(webListing, venue.webListing);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(venueId, name, address, contactCards, shows, dateOpened, dateClosed);
+        return Objects.hash(venueId, name, dateOpened, dateClosed, address, contactCards, shows, webListing);
     }
 
     @Override
@@ -94,11 +119,12 @@ public class Venue {
         return "Venue{" +
                 "venueId=" + venueId +
                 ", name='" + name + '\'' +
+                ", dateOpened=" + dateOpened +
+                ", dateClosed=" + dateClosed +
                 ", address=" + address +
                 ", contactCards=" + contactCards +
                 ", shows=" + shows +
-                ", dateOpened=" + dateOpened +
-                ", dateClosed=" + dateClosed +
+                ", webListing=" + webListing +
                 '}';
     }
 }

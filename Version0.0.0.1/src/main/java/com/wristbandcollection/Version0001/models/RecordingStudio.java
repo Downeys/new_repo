@@ -1,19 +1,29 @@
 package com.wristbandcollection.Version0001.models;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "recording_studio")
 public class RecordingStudio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer recordingStudioId;
     private String name;
+    @OneToOne
+    @JoinColumn(name = "ownerId", referencedColumnName = "recordingStudioId", nullable = false, insertable = false)
     private Address address;
-    private ContactCard contactCard;
+    @OneToMany
+    @JoinColumn(name = "contactId", referencedColumnName = "recordingStudioId", nullable = false, insertable = false)
+    private List<ContactCard> contactCard;
 
     public RecordingStudio(){}
 
-    public RecordingStudio(String name, Address address, ContactCard contactCard) {
+    public RecordingStudio(String name) {
         this.name = name;
-        this.address = address;
-        this.contactCard = contactCard;
     }
 
     public Integer getRecordingStudioId() {
@@ -40,11 +50,11 @@ public class RecordingStudio {
         this.address = address;
     }
 
-    public ContactCard getContactCard() {
+    public List<ContactCard> getContactCard() {
         return contactCard;
     }
 
-    public void setContactCard(ContactCard contactCard) {
+    public void setContactCard(List<ContactCard> contactCard) {
         this.contactCard = contactCard;
     }
 

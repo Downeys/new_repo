@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,10 +15,12 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer albumId;
+    private Integer studioId; //foreign key
+    private Integer artistId; //foreign key
+    private LocalDate releaseDate;
     private String albumTitle;
-    private RecordingStudio recordingStudio;
-    private Integer trackId;
-    @OneToMany(mappedBy = "trackId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany
+    @JoinColumn(name = "albumId", referencedColumnName = "albumId", nullable = false, insertable = false)
     private List<Song> trackList;
     private BigDecimal price;
 
@@ -37,14 +40,6 @@ public class Album {
         this.albumTitle = albumTitle;
     }
 
-    public RecordingStudio getRecordingStudio() {
-        return recordingStudio;
-    }
-
-    public void setRecordingStudio(RecordingStudio recordingStudio) {
-        this.recordingStudio = recordingStudio;
-    }
-
     public List<Song> getTrackList() {
         return trackList;
     }
@@ -61,12 +56,28 @@ public class Album {
         this.price = price;
     }
 
-    public Integer getTrackId() {
-        return trackId;
+    public Integer getStudioId() {
+        return studioId;
     }
 
-    public void setTrackId(Integer trackId) {
-        this.trackId = trackId;
+    public void setStudioId(Integer studioId) {
+        this.studioId = studioId;
+    }
+
+    public Integer getArtistId() {
+        return artistId;
+    }
+
+    public void setArtistId(Integer artistId) {
+        this.artistId = artistId;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     @Override
@@ -74,21 +85,22 @@ public class Album {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Album album = (Album) o;
-        return Objects.equals(albumId, album.albumId) && Objects.equals(albumTitle, album.albumTitle) && Objects.equals(recordingStudio, album.recordingStudio) && Objects.equals(trackId, album.trackId) && Objects.equals(trackList, album.trackList) && Objects.equals(price, album.price);
+        return Objects.equals(albumId, album.albumId) && Objects.equals(studioId, album.studioId) && Objects.equals(artistId, album.artistId) && Objects.equals(releaseDate, album.releaseDate) && Objects.equals(albumTitle, album.albumTitle) && Objects.equals(trackList, album.trackList) && Objects.equals(price, album.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(albumId, albumTitle, recordingStudio, trackId, trackList, price);
+        return Objects.hash(albumId, studioId, artistId, releaseDate, albumTitle, trackList, price);
     }
 
     @Override
     public String toString() {
         return "Album{" +
                 "albumId=" + albumId +
+                ", studioId=" + studioId +
+                ", artistId=" + artistId +
+                ", releaseDate=" + releaseDate +
                 ", albumTitle='" + albumTitle + '\'' +
-                ", recordingStudio=" + recordingStudio +
-                ", trackId=" + trackId +
                 ", trackList=" + trackList +
                 ", price=" + price +
                 '}';

@@ -1,18 +1,27 @@
 package com.wristbandcollection.Version0001.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "song")
 public class Song {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer songId;
+    private Integer albumId;
     private Integer trackNumber;
     private String trackTitle;
-    private List<BandMember> guestMusicians;
-    private Double runtime;
+    private BigDecimal runtime;
 
     public Song(){}
 
-    public Song(Integer trackNumber, String trackTitle, Double runtime) {
+    public Song(Integer albumId, Integer trackNumber, String trackTitle, BigDecimal runtime) {
+        this.albumId = albumId;
         this.trackNumber = trackNumber;
         this.trackTitle = trackTitle;
         this.runtime = runtime;
@@ -24,6 +33,14 @@ public class Song {
 
     public void setSongId(Integer songId) {
         this.songId = songId;
+    }
+
+    public Integer getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Integer albumId) {
+        this.albumId = albumId;
     }
 
     public Integer getTrackNumber() {
@@ -42,19 +59,11 @@ public class Song {
         this.trackTitle = trackTitle;
     }
 
-    public List<BandMember> getGuestMusicians() {
-        return guestMusicians;
-    }
-
-    public void setGuestMusicians(List<BandMember> guestMusicians) {
-        this.guestMusicians = guestMusicians;
-    }
-
-    public Double getRuntime() {
+    public BigDecimal getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(Double runtime) {
+    public void setRuntime(BigDecimal runtime) {
         this.runtime = runtime;
     }
 
@@ -63,21 +72,21 @@ public class Song {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Song song = (Song) o;
-        return Objects.equals(songId, song.songId) && Objects.equals(trackNumber, song.trackNumber) && Objects.equals(trackTitle, song.trackTitle) && Objects.equals(guestMusicians, song.guestMusicians) && Objects.equals(runtime, song.runtime);
+        return Objects.equals(songId, song.songId) && Objects.equals(albumId, song.albumId) && Objects.equals(trackNumber, song.trackNumber) && Objects.equals(trackTitle, song.trackTitle) && Objects.equals(runtime, song.runtime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(songId, trackNumber, trackTitle, guestMusicians, runtime);
+        return Objects.hash(songId, albumId, trackNumber, trackTitle, runtime);
     }
 
     @Override
     public String toString() {
         return "Song{" +
                 "songId=" + songId +
+                ", albumId=" + albumId +
                 ", trackNumber=" + trackNumber +
                 ", trackTitle='" + trackTitle + '\'' +
-                ", guestMusicians=" + guestMusicians +
                 ", runtime=" + runtime +
                 '}';
     }

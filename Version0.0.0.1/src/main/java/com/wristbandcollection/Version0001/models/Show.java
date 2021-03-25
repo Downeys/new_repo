@@ -1,17 +1,28 @@
 package com.wristbandcollection.Version0001.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "show")
 public class Show {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer showId;
+    private Integer venueId;
     private LocalDate showDate;
-    private List<Artist> lineup;
+    @OneToMany
+    @JoinColumn(name = "showId", referencedColumnName = "showId", nullable = false, insertable = false)
+    private List<BandOnShowLineUp> lineup;
 
     public Show(){}
 
-    public Show(LocalDate showDate, List<Artist> lineup) {
+    public Show(LocalDate showDate, List<BandOnShowLineUp> lineup) {
         this.showDate = showDate;
         this.lineup = lineup;
     }
@@ -24,6 +35,14 @@ public class Show {
         this.showId = showId;
     }
 
+    public Integer getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(Integer venueId) {
+        this.venueId = venueId;
+    }
+
     public LocalDate getShowDate() {
         return showDate;
     }
@@ -32,11 +51,11 @@ public class Show {
         this.showDate = showDate;
     }
 
-    public List<Artist> getLineup() {
+    public List<BandOnShowLineUp> getLineup() {
         return lineup;
     }
 
-    public void setLineup(List<Artist> lineup) {
+    public void setLineup(List<BandOnShowLineUp> lineup) {
         this.lineup = lineup;
     }
 
@@ -45,18 +64,19 @@ public class Show {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Show show = (Show) o;
-        return Objects.equals(showId, show.showId) && Objects.equals(showDate, show.showDate) && Objects.equals(lineup, show.lineup);
+        return Objects.equals(showId, show.showId) && Objects.equals(venueId, show.venueId) && Objects.equals(showDate, show.showDate) && Objects.equals(lineup, show.lineup);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(showId, showDate, lineup);
+        return Objects.hash(showId, venueId, showDate, lineup);
     }
 
     @Override
     public String toString() {
         return "Show{" +
                 "showId=" + showId +
+                ", venueId=" + venueId +
                 ", showDate=" + showDate +
                 ", lineup=" + lineup +
                 '}';
