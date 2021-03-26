@@ -14,18 +14,21 @@ public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer showId;
-    private Integer venueId;
     private LocalDate showDate;
-    @OneToMany
-    @JoinColumn(name = "showId", referencedColumnName = "showId", nullable = false, insertable = false)
-    private List<BandOnShowLineUp> lineup;
+
+    @ManyToMany //checked
+    @JoinTable(
+            name = "show_lineup",
+            joinColumns = @JoinColumn(name = "showId"),
+            inverseJoinColumns = @JoinColumn(name = "artistId")
+    )
+    private List<Artist> lineup;
+
+    @ManyToOne //checked
+    @JoinColumn(name = "venueId", referencedColumnName = "venueId")
+    private Venue venue;
 
     public Show(){}
-
-    public Show(LocalDate showDate, List<BandOnShowLineUp> lineup) {
-        this.showDate = showDate;
-        this.lineup = lineup;
-    }
 
     public Integer getShowId() {
         return showId;
@@ -33,14 +36,6 @@ public class Show {
 
     public void setShowId(Integer showId) {
         this.showId = showId;
-    }
-
-    public Integer getVenueId() {
-        return venueId;
-    }
-
-    public void setVenueId(Integer venueId) {
-        this.venueId = venueId;
     }
 
     public LocalDate getShowDate() {
@@ -51,12 +46,20 @@ public class Show {
         this.showDate = showDate;
     }
 
-    public List<BandOnShowLineUp> getLineup() {
+    public List<Artist> getLineup() {
         return lineup;
     }
 
-    public void setLineup(List<BandOnShowLineUp> lineup) {
+    public void setLineup(List<Artist> lineup) {
         this.lineup = lineup;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
     }
 
     @Override
@@ -64,21 +67,21 @@ public class Show {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Show show = (Show) o;
-        return Objects.equals(showId, show.showId) && Objects.equals(venueId, show.venueId) && Objects.equals(showDate, show.showDate) && Objects.equals(lineup, show.lineup);
+        return Objects.equals(showId, show.showId) && Objects.equals(showDate, show.showDate) && Objects.equals(lineup, show.lineup) && Objects.equals(venue, show.venue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(showId, venueId, showDate, lineup);
+        return Objects.hash(showId, showDate, lineup, venue);
     }
 
     @Override
     public String toString() {
         return "Show{" +
                 "showId=" + showId +
-                ", venueId=" + venueId +
                 ", showDate=" + showDate +
                 ", lineup=" + lineup +
+                ", venue=" + venue +
                 '}';
     }
 }

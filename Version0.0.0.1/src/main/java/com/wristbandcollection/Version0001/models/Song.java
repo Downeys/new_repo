@@ -12,35 +12,30 @@ import java.util.Objects;
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer songId;
-    private Integer albumId;
+    private Long songId;
     private Integer trackNumber;
     private String trackTitle;
     private BigDecimal runtime;
 
+    @ManyToOne(cascade = CascadeType.ALL) //checked
+    @JoinColumn(name = "albumId", referencedColumnName = "albumId")
+    private Album album;
+
+
     public Song(){}
 
-    public Song(Integer albumId, Integer trackNumber, String trackTitle, BigDecimal runtime) {
-        this.albumId = albumId;
+    public Song(Integer trackNumber, String trackTitle, BigDecimal runtime) {
         this.trackNumber = trackNumber;
         this.trackTitle = trackTitle;
         this.runtime = runtime;
     }
 
-    public Integer getSongId() {
+    public Long getSongId() {
         return songId;
     }
 
-    public void setSongId(Integer songId) {
+    public void setSongId(Long songId) {
         this.songId = songId;
-    }
-
-    public Integer getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(Integer albumId) {
-        this.albumId = albumId;
     }
 
     public Integer getTrackNumber() {
@@ -67,27 +62,35 @@ public class Song {
         this.runtime = runtime;
     }
 
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Song song = (Song) o;
-        return Objects.equals(songId, song.songId) && Objects.equals(albumId, song.albumId) && Objects.equals(trackNumber, song.trackNumber) && Objects.equals(trackTitle, song.trackTitle) && Objects.equals(runtime, song.runtime);
+        return Objects.equals(songId, song.songId) && Objects.equals(trackNumber, song.trackNumber) && Objects.equals(trackTitle, song.trackTitle) && Objects.equals(runtime, song.runtime) && Objects.equals(album, song.album);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(songId, albumId, trackNumber, trackTitle, runtime);
+        return Objects.hash(songId, trackNumber, trackTitle, runtime, album);
     }
 
     @Override
     public String toString() {
         return "Song{" +
                 "songId=" + songId +
-                ", albumId=" + albumId +
                 ", trackNumber=" + trackNumber +
                 ", trackTitle='" + trackTitle + '\'' +
                 ", runtime=" + runtime +
+                ", album=" + album +
                 '}';
     }
 }

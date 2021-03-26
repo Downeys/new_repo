@@ -11,8 +11,7 @@ import java.util.Objects;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer addressId;
-    private Integer ownerId;
+    private Long addressId;
     private String street1;
     private String street2;
     private String city;
@@ -21,24 +20,23 @@ public class Address {
 
     public Address(){}
 
-    public Address(Integer ownerId, String street1, String city, String state, String zipCode) {
-        this.ownerId = ownerId;
+    public Address(String street1, String city, String state, String zipCode) {
         this.street1 = street1;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
     }
 
-    public Address(Integer ownerId, String street1, String street2, String city, String state, String zipCode) {
-        this(ownerId, street1, city, state, zipCode);
+    public Address(String street1, String street2, String city, String state, String zipCode) {
+        this(street1, city, state, zipCode);
         this.street2 = street2;
     }
 
-    public Integer getAddressId() {
+    public Long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(Integer addressId) {
+    public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
 
@@ -82,32 +80,23 @@ public class Address {
         this.zipCode = zipCode;
     }
 
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(addressId, address.addressId) && Objects.equals(ownerId, address.ownerId) && Objects.equals(street1, address.street1) && Objects.equals(street2, address.street2) && Objects.equals(city, address.city) && Objects.equals(state, address.state) && Objects.equals(zipCode, address.zipCode);
+        return Objects.equals(addressId, address.addressId) && Objects.equals(street1, address.street1) && Objects.equals(street2, address.street2) && Objects.equals(city, address.city) && Objects.equals(state, address.state) && Objects.equals(zipCode, address.zipCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(addressId, ownerId, street1, street2, city, state, zipCode);
+        return Objects.hash(addressId, street1, street2, city, state, zipCode);
     }
 
     @Override
     public String toString() {
         return "Address{" +
                 "addressId=" + addressId +
-                ", ownerId=" + ownerId +
                 ", street1='" + street1 + '\'' +
                 ", street2='" + street2 + '\'' +
                 ", city='" + city + '\'' +

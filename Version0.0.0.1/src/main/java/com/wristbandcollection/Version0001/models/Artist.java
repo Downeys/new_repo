@@ -14,28 +14,40 @@ public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer artistId;
-    private Integer bandMemberId;
     private String bandName;
     private LocalDate dateBandFormed;
     private LocalDate dateBandBrokeUp;
-    @ManyToMany
-    @JoinColumn(name = "artistId", referencedColumnName = "artistId", nullable = false, updatable = false)
+
+    @ManyToMany(mappedBy = "lineup") //checked
+    private List<Show> shows;
+
+    @ManyToMany //checked
+    @JoinTable(
+            name = "band_member_lineup",
+            joinColumns = @JoinColumn(name = "artistId"),
+            inverseJoinColumns = @JoinColumn(name = "bandMemberId")
+    )
     private List<BandMember> bandMembers;
-    @ManyToOne
-    @JoinColumn(name = "artistId", referencedColumnName = "artistId", nullable = false, updatable = false)
+
+    @ManyToMany //checked
+    @JoinTable(
+            name = "artist_genre",
+            joinColumns = @JoinColumn(name = "artistId"),
+            inverseJoinColumns = @JoinColumn(name = "genreId")
+    )
+    private List<Genre> genres;
+
+    @ManyToOne //checked
+    @JoinColumn(name = "hometownId", referencedColumnName = "hometownId")
     private Hometown hometown;
-    @OneToMany
-    @JoinColumn(name = "artistId", referencedColumnName = "artistId", nullable = false, updatable = false)
+
+    @OneToMany(mappedBy = "artist") //checked
     private List<Album> albums;
-    @OneToOne
-    @JoinColumn(name = "artistId", referencedColumnName = "artistId", nullable = false, updatable = false)
+
+    @OneToOne //checked
+    @JoinColumn(name = "websiteListingId", referencedColumnName = "websiteListingId")
     private WebListing webListing;
-    @ManyToMany
-    @JoinColumn(name = "artistId", referencedColumnName = "artistId", nullable = false, updatable = false)
-    private List<BandOnShowLineUp> shows;
-    @OneToMany
-    @JoinColumn(name = "artistId", referencedColumnName = "artistId", nullable = false, updatable = false)
-    private List<ArtistGenre> genres;
+
 
     public Artist(){}
 
@@ -49,14 +61,6 @@ public class Artist {
 
     public void setArtistId(Integer artistId) {
         this.artistId = artistId;
-    }
-
-    public Integer getBandMemberId() {
-        return bandMemberId;
-    }
-
-    public void setBandMemberId(Integer bandMemberId) {
-        this.bandMemberId = bandMemberId;
     }
 
     public String getBandName() {
@@ -83,12 +87,28 @@ public class Artist {
         this.dateBandBrokeUp = dateBandBrokeUp;
     }
 
+    public List<Show> getShows() {
+        return shows;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
+    }
+
     public List<BandMember> getBandMembers() {
         return bandMembers;
     }
 
     public void setBandMembers(List<BandMember> bandMembers) {
         this.bandMembers = bandMembers;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     public Hometown getHometown() {
@@ -115,49 +135,32 @@ public class Artist {
         this.webListing = webListing;
     }
 
-    public List<BandOnShowLineUp> getShows() {
-        return shows;
-    }
-
-    public void setShows(List<BandOnShowLineUp> shows) {
-        this.shows = shows;
-    }
-
-    public List<ArtistGenre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<ArtistGenre> genres) {
-        this.genres = genres;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Artist artist = (Artist) o;
-        return Objects.equals(artistId, artist.artistId) && Objects.equals(bandMemberId, artist.bandMemberId) && Objects.equals(bandName, artist.bandName) && Objects.equals(dateBandFormed, artist.dateBandFormed) && Objects.equals(dateBandBrokeUp, artist.dateBandBrokeUp) && Objects.equals(bandMembers, artist.bandMembers) && Objects.equals(hometown, artist.hometown) && Objects.equals(albums, artist.albums) && Objects.equals(webListing, artist.webListing) && Objects.equals(shows, artist.shows) && Objects.equals(genres, artist.genres);
+        return Objects.equals(artistId, artist.artistId) && Objects.equals(bandName, artist.bandName) && Objects.equals(dateBandFormed, artist.dateBandFormed) && Objects.equals(dateBandBrokeUp, artist.dateBandBrokeUp) && Objects.equals(shows, artist.shows) && Objects.equals(bandMembers, artist.bandMembers) && Objects.equals(genres, artist.genres) && Objects.equals(hometown, artist.hometown) && Objects.equals(albums, artist.albums) && Objects.equals(webListing, artist.webListing);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(artistId, bandMemberId, bandName, dateBandFormed, dateBandBrokeUp, bandMembers, hometown, albums, webListing, shows, genres);
+        return Objects.hash(artistId, bandName, dateBandFormed, dateBandBrokeUp, shows, bandMembers, genres, hometown, albums, webListing);
     }
 
     @Override
     public String toString() {
         return "Artist{" +
                 "artistId=" + artistId +
-                ", bandMemberId=" + bandMemberId +
                 ", bandName='" + bandName + '\'' +
                 ", dateBandFormed=" + dateBandFormed +
                 ", dateBandBrokeUp=" + dateBandBrokeUp +
+                ", shows=" + shows +
                 ", bandMembers=" + bandMembers +
+                ", genres=" + genres +
                 ", hometown=" + hometown +
                 ", albums=" + albums +
                 ", webListing=" + webListing +
-                ", shows=" + shows +
-                ", genres=" + genres +
                 '}';
     }
 }

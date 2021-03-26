@@ -13,19 +13,20 @@ public class ContactCard {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer contactCardId;
-    private Integer contactId;
     private String contactType;
     private String name;
     private String phone;
     private String email;
 
-    public ContactCard(){}
+    @ManyToOne //checked
+    @JoinColumn(name = "recordingStudioId", referencedColumnName = "recordingStudioId")
+    private RecordingStudio recordingStudio;
 
-    public ContactCard(Integer contactId, String contactType, String name){
-        this.contactId = contactId;
-        this.contactType = contactType;
-        this.name = name;
-    }
+    @ManyToOne //checked
+    @JoinColumn(name = "venueId", referencedColumnName = "venueId")
+    private Venue venue;
+
+    public ContactCard(){}
 
     public Integer getContactCardId() {
         return contactCardId;
@@ -33,14 +34,6 @@ public class ContactCard {
 
     public void setContactCardId(Integer contactCardId) {
         this.contactCardId = contactCardId;
-    }
-
-    public Integer getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(Integer contactId) {
-        this.contactId = contactId;
     }
 
     public String getContactType() {
@@ -75,28 +68,45 @@ public class ContactCard {
         this.email = email;
     }
 
+    public RecordingStudio getRecordingStudio() {
+        return recordingStudio;
+    }
+
+    public void setRecordingStudio(RecordingStudio recordingStudio) {
+        this.recordingStudio = recordingStudio;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactCard that = (ContactCard) o;
-        return Objects.equals(contactCardId, that.contactCardId) && Objects.equals(contactId, that.contactId) && Objects.equals(contactType, that.contactType) && Objects.equals(name, that.name) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email);
+        return Objects.equals(contactCardId, that.contactCardId) && Objects.equals(contactType, that.contactType) && Objects.equals(name, that.name) && Objects.equals(phone, that.phone) && Objects.equals(email, that.email) && Objects.equals(recordingStudio, that.recordingStudio) && Objects.equals(venue, that.venue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contactCardId, contactId, contactType, name, phone, email);
+        return Objects.hash(contactCardId, contactType, name, phone, email, recordingStudio, venue);
     }
 
     @Override
     public String toString() {
         return "ContactCard{" +
                 "contactCardId=" + contactCardId +
-                ", contactId=" + contactId +
                 ", contactType='" + contactType + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
+                ", recordingStudio=" + recordingStudio +
+                ", venue=" + venue +
                 '}';
     }
 }

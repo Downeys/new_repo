@@ -12,7 +12,6 @@ public class WebListing {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer websiteListingId;
-    private Integer ownerId;
     private String website;
     private String facebook;
     private String instagram;
@@ -31,14 +30,6 @@ public class WebListing {
 
     public void setWebsiteListingId(Integer websiteListingId) {
         this.websiteListingId = websiteListingId;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
     }
 
     public String getWebsite() {
@@ -110,19 +101,18 @@ public class WebListing {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WebListing that = (WebListing) o;
-        return Objects.equals(websiteListingId, that.websiteListingId) && Objects.equals(ownerId, that.ownerId) && Objects.equals(website, that.website) && Objects.equals(facebook, that.facebook) && Objects.equals(instagram, that.instagram) && Objects.equals(twitter, that.twitter) && Objects.equals(bandcamp, that.bandcamp) && Objects.equals(reverbNation, that.reverbNation) && Objects.equals(soundcloud, that.soundcloud) && Objects.equals(bandsInTown, that.bandsInTown);
+        return Objects.equals(websiteListingId, that.websiteListingId) && Objects.equals(website, that.website) && Objects.equals(facebook, that.facebook) && Objects.equals(instagram, that.instagram) && Objects.equals(twitter, that.twitter) && Objects.equals(bandcamp, that.bandcamp) && Objects.equals(reverbNation, that.reverbNation) && Objects.equals(soundcloud, that.soundcloud) && Objects.equals(bandsInTown, that.bandsInTown);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(websiteListingId, ownerId, website, facebook, instagram, twitter, bandcamp, reverbNation, soundcloud, bandsInTown);
+        return Objects.hash(websiteListingId, website, facebook, instagram, twitter, bandcamp, reverbNation, soundcloud, bandsInTown);
     }
 
     @Override
     public String toString() {
         return "WebListing{" +
-                "websiteListingsId=" + websiteListingId +
-                ", ownerId=" + ownerId +
+                "websiteListingId=" + websiteListingId +
                 ", website='" + website + '\'' +
                 ", facebook='" + facebook + '\'' +
                 ", instagram='" + instagram + '\'' +

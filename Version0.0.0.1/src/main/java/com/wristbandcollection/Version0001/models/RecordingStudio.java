@@ -13,12 +13,18 @@ public class RecordingStudio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer recordingStudioId;
     private String name;
-    @OneToOne
-    @JoinColumn(name = "ownerId", referencedColumnName = "recordingStudioId", nullable = false, insertable = false)
-    private Address address;
-    @OneToMany
-    @JoinColumn(name = "contactId", referencedColumnName = "recordingStudioId", nullable = false, insertable = false)
+
+    @OneToMany(mappedBy = "recordingStudio")
     private List<ContactCard> contactCard;
+
+    @OneToOne //checked
+    @JoinColumn(name = "addressId", referencedColumnName = "addressId", nullable = false, insertable = false)
+    private Address address;
+
+    @OneToOne //checked
+    @JoinColumn(name = "websiteListingId", referencedColumnName = "websiteListingId", nullable = false, insertable = false)
+    private WebListing webListing;
+
 
     public RecordingStudio(){}
 
@@ -42,14 +48,6 @@ public class RecordingStudio {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public List<ContactCard> getContactCard() {
         return contactCard;
     }
@@ -58,17 +56,20 @@ public class RecordingStudio {
         this.contactCard = contactCard;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RecordingStudio that = (RecordingStudio) o;
-        return Objects.equals(recordingStudioId, that.recordingStudioId) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(contactCard, that.contactCard);
+    public Address getAddress() {
+        return address;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(recordingStudioId, name, address, contactCard);
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public WebListing getWebListing() {
+        return webListing;
+    }
+
+    public void setWebListing(WebListing webListing) {
+        this.webListing = webListing;
     }
 
     @Override
@@ -76,8 +77,9 @@ public class RecordingStudio {
         return "RecordingStudio{" +
                 "recordingStudioId=" + recordingStudioId +
                 ", name='" + name + '\'' +
-                ", address=" + address +
                 ", contactCard=" + contactCard +
+                ", address=" + address +
+                ", webListing=" + webListing +
                 '}';
     }
 }

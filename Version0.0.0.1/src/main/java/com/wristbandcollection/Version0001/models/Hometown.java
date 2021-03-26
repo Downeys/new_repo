@@ -13,14 +13,13 @@ public class Hometown {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer hometownId;
-    private Integer ownerId;
     private String hometownName;
     private String ownerType;
-    @OneToMany
-    @JoinColumn(name = "hometownId", referencedColumnName = "hometownId", nullable = false, updatable = false)
+
+    @OneToMany(mappedBy = "hometown")//checked
     private List<BandMember> bandMembersFromHometown;
-    @OneToMany
-    @JoinColumn(name = "hometownId", referencedColumnName = "hometownId", nullable = false, updatable = false)
+
+    @OneToMany(mappedBy = "hometown") //checked
     private List<Artist> bandsFromHometown;
 
     public Hometown(){}
@@ -35,14 +34,6 @@ public class Hometown {
 
     public void setHometownId(Integer hometownId) {
         this.hometownId = hometownId;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
     }
 
     public String getHometownName() {
@@ -82,19 +73,18 @@ public class Hometown {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Hometown hometown = (Hometown) o;
-        return Objects.equals(hometownId, hometown.hometownId) && Objects.equals(ownerId, hometown.ownerId) && Objects.equals(hometownName, hometown.hometownName) && Objects.equals(ownerType, hometown.ownerType) && Objects.equals(bandMembersFromHometown, hometown.bandMembersFromHometown) && Objects.equals(bandsFromHometown, hometown.bandsFromHometown);
+        return Objects.equals(hometownId, hometown.hometownId) && Objects.equals(hometownName, hometown.hometownName) && Objects.equals(ownerType, hometown.ownerType) && Objects.equals(bandMembersFromHometown, hometown.bandMembersFromHometown) && Objects.equals(bandsFromHometown, hometown.bandsFromHometown);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(hometownId, ownerId, hometownName, ownerType, bandMembersFromHometown, bandsFromHometown);
+        return Objects.hash(hometownId, hometownName, ownerType, bandMembersFromHometown, bandsFromHometown);
     }
 
     @Override
     public String toString() {
         return "Hometown{" +
                 "hometownId=" + hometownId +
-                ", ownerId=" + ownerId +
                 ", hometownName='" + hometownName + '\'' +
                 ", ownerType='" + ownerType + '\'' +
                 ", bandMembersFromHometown=" + bandMembersFromHometown +
