@@ -21,6 +21,10 @@ public class Song {
     @JoinColumn(name = "albumId", referencedColumnName = "albumId")
     private Album album;
 
+    @ManyToOne
+    @JoinColumn(name = "recordingStudioId", referencedColumnName = "recordingStudioId")
+    private RecordingStudio recordingStudio;
+
 
     public Song(){}
 
@@ -70,17 +74,25 @@ public class Song {
         this.album = album;
     }
 
+    public RecordingStudio getRecordingStudio() {
+        return recordingStudio;
+    }
+
+    public void setRecordingStudio(RecordingStudio recordingStudio) {
+        this.recordingStudio = recordingStudio;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Song song = (Song) o;
-        return Objects.equals(songId, song.songId) && Objects.equals(trackNumber, song.trackNumber) && Objects.equals(trackTitle, song.trackTitle) && Objects.equals(runtime, song.runtime) && Objects.equals(album, song.album);
+        return Objects.equals(songId, song.songId) && Objects.equals(trackNumber, song.trackNumber) && Objects.equals(trackTitle, song.trackTitle) && Objects.equals(runtime, song.runtime) && Objects.equals(album, song.album) && Objects.equals(recordingStudio, song.recordingStudio);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(songId, trackNumber, trackTitle, runtime, album);
+        return Objects.hash(songId, trackNumber, trackTitle, runtime, album, recordingStudio);
     }
 
     @Override
@@ -91,6 +103,7 @@ public class Song {
                 ", trackTitle='" + trackTitle + '\'' +
                 ", runtime=" + runtime +
                 ", album=" + album +
+                ", recordingStudio=" + recordingStudio +
                 '}';
     }
 }

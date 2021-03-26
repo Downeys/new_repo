@@ -25,11 +25,11 @@ public class Venue {
     private List<Show> shows;
 
     @OneToOne//checked
-    @JoinColumn(name = "addressId", referencedColumnName = "addressId", nullable = false, insertable = false)
+    @JoinColumn(name = "addressId", referencedColumnName = "addressId")
     private Address address;
 
     @OneToOne //checked
-    @JoinColumn(name = "websiteListingId", referencedColumnName = "websiteListingId", nullable = false, insertable = false)
+    @JoinColumn(name = "websiteListingId", referencedColumnName = "websiteListingId")
     private WebListing webListing;
 
     public Venue(){}
@@ -37,6 +37,70 @@ public class Venue {
     public Venue(String name, Address address) {
         this.name = name;
         this.address = address;
+    }
+
+    public Integer getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(Integer venueId) {
+        this.venueId = venueId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getDateOpened() {
+        return dateOpened;
+    }
+
+    public void setDateOpened(LocalDate dateOpened) {
+        this.dateOpened = dateOpened;
+    }
+
+    public LocalDate getDateClosed() {
+        return dateClosed;
+    }
+
+    public void setDateClosed(LocalDate dateClosed) {
+        this.dateClosed = dateClosed;
+    }
+
+    public List<ContactCard> getContactCards() {
+        return contactCards;
+    }
+
+    public void setContactCards(List<ContactCard> contactCards) {
+        this.contactCards = contactCards;
+    }
+
+    public List<Show> getShows() {
+        return shows;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public WebListing getWebListing() {
+        return webListing;
+    }
+
+    public void setWebListing(WebListing webListing) {
+        this.webListing = webListing;
     }
 
     @Override

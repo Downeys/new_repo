@@ -17,20 +17,16 @@ public class RecordingStudio {
     @OneToMany(mappedBy = "recordingStudio")
     private List<ContactCard> contactCard;
 
+    @OneToMany(mappedBy = "recordingStudio")
+    private List<Song> songs;
+
     @OneToOne //checked
-    @JoinColumn(name = "addressId", referencedColumnName = "addressId", nullable = false, insertable = false)
+    @JoinColumn(name = "addressId", referencedColumnName = "addressId")
     private Address address;
 
     @OneToOne //checked
-    @JoinColumn(name = "websiteListingId", referencedColumnName = "websiteListingId", nullable = false, insertable = false)
+    @JoinColumn(name = "websiteListingId", referencedColumnName = "websiteListingId")
     private WebListing webListing;
-
-
-    public RecordingStudio(){}
-
-    public RecordingStudio(String name) {
-        this.name = name;
-    }
 
     public Integer getRecordingStudioId() {
         return recordingStudioId;
@@ -56,6 +52,14 @@ public class RecordingStudio {
         this.contactCard = contactCard;
     }
 
+    public List<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
+    }
+
     public Address getAddress() {
         return address;
     }
@@ -73,11 +77,25 @@ public class RecordingStudio {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecordingStudio that = (RecordingStudio) o;
+        return Objects.equals(recordingStudioId, that.recordingStudioId) && Objects.equals(name, that.name) && Objects.equals(contactCard, that.contactCard) && Objects.equals(songs, that.songs) && Objects.equals(address, that.address) && Objects.equals(webListing, that.webListing);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recordingStudioId, name, contactCard, songs, address, webListing);
+    }
+
+    @Override
     public String toString() {
         return "RecordingStudio{" +
                 "recordingStudioId=" + recordingStudioId +
                 ", name='" + name + '\'' +
                 ", contactCard=" + contactCard +
+                ", songs=" + songs +
                 ", address=" + address +
                 ", webListing=" + webListing +
                 '}';
